@@ -14,4 +14,6 @@ matrix:
 sudo: false
 cache: bundler
 before_install: gem install bundler
-script: bundle exec rspec
+script:
+- bundke exec rubocop
+- bundle exec rspec
