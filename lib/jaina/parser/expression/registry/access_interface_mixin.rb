@@ -19,26 +19,26 @@ module Jaina::Parser::Expression
       module ClassMethods
         # @return [Array<String>]
         #
-        # @api public
+        # @api private
         # @since 0.1.0
         def expressions
           @__expression_registry__.expressions
         end
 
         # @param extension_token [String]
-        # @return [Jaina::Parser::Expressions::Operator::Abstract]
+        # @return [Class{Jaina::Parser::Expressions::Operator::Abstract}]
         #
-        # @api public
+        # @api private
         # @since 0.1.0
         def [](extension_token)
           @__expression_registry__[extension_token]
         end
         alias_method :fetch, :[]
 
-        # @param expression [Jaina::Parser::Expressions::Operator::Abstract]
+        # @param expression [Class{Jaina::Parser::Expressions::Operator::Abstract}]
         # @return [void]
         #
-        # @api public
+        # @api private
         # @since 0.1.0
         def register(expression)
           @__expression_registry__.register(expression)

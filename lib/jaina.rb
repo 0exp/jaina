@@ -6,6 +6,9 @@ module Jaina
   require_relative './jaina/version'
   require_relative './jaina/parser'
 
+  # @since 0.1.0
+  extend Forwardable
+
   TerminalExpr    = Parser::Expression::Operator::Terminal
   NonTerminalExpr = Parser::Expression::Operator::NonTerminal
   GroupingExpr    = Parser::Expression::Operator::Grouping
@@ -37,5 +40,23 @@ module Jaina
     def register_expression(expression_klass)
       Jaina::Parser::Expression.register(expression_klass)
     end
+
+    # @return [Array<String>]
+    #
+    # @api public
+    # @since 0.1.0
+    def expressions
+      Jaina::Parser::Expression.expressions
+    end
+
+    # @param expression_token [String]
+    # @return [Class{Jaina::Parser::Expressions::Operator::Abstract}]
+    #
+    # @api public
+    # @since 0.1.0
+    def fetch_expression(expression_token)
+      Jaina::Parser::Expression.fetch(expression_token)
+    end
+    alias_method :[], :fetch_expression
   end
 end

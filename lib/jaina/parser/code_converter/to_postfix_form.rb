@@ -3,7 +3,7 @@
 # @api private
 # @since 0.1.0
 class Jaina::Parser::CodeConverter::ToPostfixForm
-  # @api public
+  # @api private
   # @since 0.1.0
   extend Forwardable
 

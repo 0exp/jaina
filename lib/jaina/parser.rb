@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# @api public
+# @api private
 # @since 0.1.0
 class Jaina::Parser
   require_relative './parser/expression'
