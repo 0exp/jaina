@@ -6,6 +6,7 @@ class Jaina::Parser::AST
   require_relative './ast/tree'
   require_relative './ast/builder'
   require_relative './ast/evaluator'
+  require_relative './ast/context'
 
   class << self
     # @param program [String] Program string in prefix form

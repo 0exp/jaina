@@ -54,7 +54,7 @@ class Jaina::Parser::Expression::Operator::Abstract
   #
   # @api private
   # @since 0.1.0
-  def evaluate; end
+  def evaluate(context); end
 
   # @param another_operator [Class<Jaina::Parser::Expression::Operator::Abstract>]
   # @return [Boolean]
