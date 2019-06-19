@@ -2,7 +2,7 @@
 
 # @api private
 # @since 0.1.0
-module Jaina::Parser::Expressions::Operator::Abstract::DSL
+module Jaina::Parser::Expression::Operator::Abstract::DSL
   # @since 0.1.0
   Error = Class.new(StandardError)
   # @since 0.1.0
@@ -10,7 +10,7 @@ module Jaina::Parser::Expressions::Operator::Abstract::DSL
   # @since 0.1.0
   IncorrectPrecedenceLevelError = Class.new(Error)
   # @since 0.1.0
-  IncrrectAssociativityError = Class.new(Error)
+  IncorrectAssociativityDirectionError = Class.new(Error)
 
   # @return [Symbol]
   #
@@ -34,6 +34,8 @@ module Jaina::Parser::Expressions::Operator::Abstract::DSL
       base_klass.instance_variable_set(:@token, nil)
       base_klass.instance_variable_set(:@precedence_level, nil)
       base_klass.instance_variable_set(:@associativity_direction, nil)
+      base_klass.instance_variable_set(:@acts_as_binary_term, false)
+      base_klass.instance_variable_set(:@acts_as_unary_term, false)
 
       base_klass.extend ClassMethods
       base_klass.include InstanceMethods
@@ -50,9 +52,30 @@ module Jaina::Parser::Expressions::Operator::Abstract::DSL
     # @api private
     # @since 0.1.0
     def inherited(child_klass)
-      child_class.instance_variable_set(:@token, token)
-      child_class.instance_variable_set(:@precedence_level, precedence_level)
-      child_class.instance_variable_set(:@associativity_direction, associativity_direction)
+      child_klass.instance_variable_set(
+        :@token,
+        instance_variable_get(:@token)
+      )
+
+      child_klass.instance_variable_set(
+        :@precedence_level,
+        instance_variable_get(:@precedence_level)
+      )
+
+      child_klass.instance_variable_set(
+        :@associativity_direction,
+        instance_variable_get(:@associativity_direction)
+      )
+
+      child_klass.instance_variable_set(
+        :@acts_as_binary_term,
+        instance_variable_get(:@acts_as_binary_term)
+      )
+
+      child_klass.instance_variable_set(
+        :@acts_as_unary_term,
+        instance_variable_get(:@acts_as_unary_term)
+      )
 
       super
     end
@@ -81,7 +104,7 @@ module Jaina::Parser::Expressions::Operator::Abstract::DSL
     # @api private
     # @since 0.1.0
     def precedence_level(level = nil)
-      unless term.is_a?(String) || term.is_a?(NilClass)
+      unless level.is_a?(Integer) || level.is_a?(NilClass)
         raise IncorrectPrecedenceLevelError, 'Precendence level should be a type of integer'
       end
 
@@ -97,13 +120,61 @@ module Jaina::Parser::Expressions::Operator::Abstract::DSL
     def associativity_direction(assoc = nil)
       unless assoc.is_a?(NilClass) || assoc == LEFT_ASSOC || assoc == RIGHT_ASSOC
         raise(
-          IncrrectAssociativityError,
-          "Associativity directio can be :#{LEFT_ASSOC} or :#{RIGHT_ASSOC}"
+          IncorrectAssociativityDirectionError,
+          "Associativity direction can be :#{LEFT_ASSOC} or :#{RIGHT_ASSOC}"
         )
       end
 
       @associativity_direction = assoc unless assoc.nil?
       @associativity_direction
+    end
+
+    # @return [void]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_binary_term
+      @acts_as_binary_term = true
+    end
+
+    # @return [void]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_unary_term
+      @acts_as_unary_term = true
+    end
+
+    # @return [void]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_binary_term?
+      @acts_as_binary_term
+    end
+
+    # @return [void]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_unary_term?
+      @acts_as_unary_term
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def terminal?
+      false
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def non_terminal?
+      false
     end
   end
 
@@ -132,6 +203,54 @@ module Jaina::Parser::Expressions::Operator::Abstract::DSL
     # @since 0.1.0
     def associativity_direction
       self.class.associativity_direction
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_group_closener?
+      self.class.acts_as_group_closener?
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_group_opener?
+      self.class.acts_as_group_opener?
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_binary_term?
+      self.class.acts_as_binary_term?
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def acts_as_unary_term?
+      self.class.acts_as_unary_term?
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def terminal?
+      self.class.terminal?
+    end
+
+    # @return [Boolean]
+    #
+    # @api private
+    # @since 0.1.0
+    def non_terminal?
+      self.class.non_terminal?
     end
   end
 end

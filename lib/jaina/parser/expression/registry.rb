@@ -2,7 +2,7 @@
 
 # @api private
 # @since 0.1.0
-class Jaina::Parser::Expressions::Registry
+class Jaina::Parser::Expression::Registry
   require_relative './registry/access_interface_mixin'
 
   # @since 0.1.0
@@ -12,7 +12,7 @@ class Jaina::Parser::Expressions::Registry
   # @since 0.1.0
   UnregisteredExpressionError = Class.new(Error)
   # @since 0.1.0
-  IncorrectEzpressionObjectError = Class.new(Error)
+  IncorrectExpressionObjectError = Class.new(Error)
 
   # @return [void]
   #
@@ -24,7 +24,7 @@ class Jaina::Parser::Expressions::Registry
   end
 
   # @param expression_token [String]
-  # @return [Jaina::Parser::Operator::Abstract]
+  # @return [Class{Jaina::Parser::Operator::Abstract}]
   #
   # @api private
   # @since 0.1.0
@@ -32,7 +32,7 @@ class Jaina::Parser::Expressions::Registry
     thread_safe { fetch(expression_token) }
   end
 
-  # @param expression [Jaina::Parser::Operator::Abstract]
+  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
   # @return [void]
   #
   # @api private
@@ -51,7 +51,7 @@ class Jaina::Parser::Expressions::Registry
 
   private
 
-  # @return [Hash<String,Jaina::Parser::Operator::Abstract>]
+  # @return [Hash<String,Class{Jaina::Parser::Operator::Abstract}>]
   #
   # @api private
   # @since 0.1.0
@@ -80,7 +80,15 @@ class Jaina::Parser::Expressions::Registry
     expression_set.key?(expression_token)
   end
 
-  # @param expression [Jaina::Parser::Operator::Abstract]
+  # @return [Array<String>]
+  #
+  # @api private
+  # @since 0.1.0
+  def expression_names
+    expression_set.keys
+  end
+
+  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
   # @return [void]
   #
   # @raise [Jaina::Parser::Expression::Registry::AlreadyRegisteredExpressionError]
@@ -90,19 +98,19 @@ class Jaina::Parser::Expressions::Registry
   def apply(expression)
     raise(
       AlreadyRegisteredExpressionError,
-      "Expression with token #{expression.token} already exist"
+      "Expression with token `#{expression.token}` already exist"
     ) if registered?(expression.token)
 
     raise(
-      IncorrectEzpressionObjectError,
-      'Expression should be a type of Jaina::Parser::Expression::Operation::Abstract'
-    ) unless expression.is_a?(Jaina::Parser::Expression::Operation::Abstract)
+      IncorrectExpressionObjectError,
+      'Expression should be a subtype of Jaina::Parser::Expression::Operation::Abstract'
+    ) unless expression.is_a?(Class) && expression < Jaina::Parser::Expression::Operator::Abstract
 
-    expression_set[exression_token] = expression
+    expression_set[expression.token] = expression
   end
 
   # @param expression_token [String]
-  # @return [Jaina::Parser::Operator::Abstract]
+  # @return [Class{Jaina::Parser::Operator::Abstract}]
   #
   # @raise [Jaina::Parser::Expression::Registry::UnregisteredExpressionError]
   #
@@ -111,7 +119,7 @@ class Jaina::Parser::Expressions::Registry
   def fetch(expression_token)
     raise(
       UnregisteredExpressionError,
-      "Expression with token #{expression_token} is not registered"
+      "Expression with token `#{expression_token}` is not registered"
     ) unless registered?(expression_token)
 
     expression_set[expression_token]
