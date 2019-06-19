@@ -15,5 +15,5 @@ sudo: false
 cache: bundler
 before_install: gem install bundler
 script:
-- bundke exec rubocop
+- bundle exec rubocop
 - bundle exec rspec
