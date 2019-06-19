@@ -25,9 +25,9 @@ describe 'Smoke test' do
     expect(ast.ast_tree.ast_oriented_program).to eq('AND AND OR AND A B C OR E D NOT C')
 
     # NOTE: get registered expression names
-    expect(Jaina.expressions).to contain_exactly(*%w[
-      A B C D E AND OR NOT ( )
-    ])
+    expect(Jaina.expressions).to contain_exactly(
+      'A', 'B', 'C', 'D', 'E', 'AND', 'OR', 'NOT', '(', ')'
+    )
 
     # NOTE: fetch new registered expression
     expect(Jaina.fetch_expression('A')).to eq(a)

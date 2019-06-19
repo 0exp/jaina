@@ -10,7 +10,10 @@ module Jaina::Parser::AST::Evaluator
     # @api private
     # @since 0.1.0
     def evaluate(ast)
+      # :nocov:
       context = Jaina::Parser::AST::Context.new
+      # :nocov:
+
       # TODO: traverse the abstract syntax tree
     end
   end
