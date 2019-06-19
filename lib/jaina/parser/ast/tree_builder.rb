@@ -2,7 +2,7 @@
 
 # @api private
 # @since 0.1.0
-class Jaina::Parser::AST::Builder
+class Jaina::Parser::AST::TreeBuilder
   # @since 0.1.0
   extend Forwardable
 

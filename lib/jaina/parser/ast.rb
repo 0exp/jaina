@@ -4,7 +4,7 @@
 # @since 0.1.0
 class Jaina::Parser::AST
   require_relative './ast/tree'
-  require_relative './ast/builder'
+  require_relative './ast/tree_builder'
   require_relative './ast/evaluator'
   require_relative './ast/context'
 
@@ -15,7 +15,7 @@ class Jaina::Parser::AST
     # @api private
     # @since 0.1.0
     def build(program)
-      ast_tree = Jaina::Parser::AST::Builder.build(program)
+      ast_tree = Jaina::Parser::AST::TreeBuilder.build(program)
       new(program, ast_tree)
     end
 
