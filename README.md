@@ -26,7 +26,7 @@ require 'jaina'
 - [Context API](#context-api)
 - [Parse your code (build AST)](#parse-your-code-build-ast)
 - [Evaluate your code](#evaluate-your-code)
-- [List registered operands and operators](#list-registered-operands-and-operators)
+- [List registered operands and operators](#list-and-fetch-registered-operands-and-operators)
 
 ---
 
@@ -42,13 +42,15 @@ require 'jaina'
 ### Register your own operator
 
 ```ruby
+# step 1: define new operator
 class But < Jaina::NonTerminalExpr
   token 'BUT' # use it in your program :)
   associativity_direction :left # associativity (left or right)
-  acts_as_vinary_term # binar or unary
+  acts_as_binary_term # binar or unary
   precedence_level 4 # for example: AND > OR, NOT > AND, and etc...
 end
 
+# step 2: regsiter your operator
 Jaina.register_expression(But)
 ```
 
@@ -57,6 +59,7 @@ Jaina.register_expression(But)
 ### Register your own operand
 
 ```ruby
+# step 1: define new operand
 class A < Jaina::TerminalExpr
   token 'A'
 
@@ -66,6 +69,7 @@ class A < Jaina::TerminalExpr
   end
 end
 
+# step 2: regsiter your operand
 Jaina.register_expression(A)
 ```
 
