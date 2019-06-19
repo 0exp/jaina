@@ -37,6 +37,8 @@ require 'jaina'
 - `NOT`
 - `(`, `)` (grouping operators)
 
+---
+
 ### Register your own operator
 
 ```ruby
@@ -90,6 +92,8 @@ context.get(:a) # => 1
 context.keys # => [:a]
 context.get(:b) # => Jaina::Parser::AST::Contex::UndefinedContextKeyError
 ```
+
+---
 
 ### Parse your code (build AST)
 
