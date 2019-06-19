@@ -1,4 +1,4 @@
-# Jaina
+# Jaina  &middot; [![Gem Version](https://badge.fury.io/rb/jaina.svg)](https://badge.fury.io/rb/jaina) [![Build Status](https://travis-ci.org/0exp/jaina.svg?branch=master)](https://travis-ci.org/0exp/jaina) [![Coverage Status](https://coveralls.io/repos/github/0exp/jaina/badge.svg?branch=master)](https://coveralls.io/github/0exp/jaina?branch=master)
 
 Simple programming language builder inspired by interpreter pattern.
 
