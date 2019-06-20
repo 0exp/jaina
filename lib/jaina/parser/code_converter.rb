@@ -13,7 +13,7 @@ class Jaina::Parser::CodeConverter
     # @api private
     # @since 0.1.0
     def to_postfix_form(program)
-      ToPrefixForm.call(program)
+      ToPostfixForm.call(program)
     end
 
     # @param program [String]
