@@ -14,7 +14,8 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/0exp/jaina'
   spec.summary     = 'Simple programming language builder inspired by interpreter pattern.'
   spec.description = 'Simple programming language builder inspired by interpreter pattern. ' \
-                     'You can build your own langs for any project purposes.'
+                     'You can build your own languages with custom operands and operators ' \
+                     'for any project purposes.'
 
   spec.bindir        = 'bin'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
