@@ -33,7 +33,7 @@ class Jaina::Parser::AST::Context
   # @api public
   # @since 0.1.0
   def get(key)
-    thread_safe { get(key) }
+    thread_safe { fetch(key) }
   end
 
   # @return [Array<Any>]

@@ -8,5 +8,22 @@ module Jaina::Parser::Expression::Operator
     associativity_direction :right
     token 'NOT'
     acts_as_unary_term
+
+    # @param context [Jaina::Parser::AST::Context]
+    # @return [Any]
+    #
+    # @api private
+    # @since 0.2.0
+    def evaluate(contenxt)
+      !expression.evaluate(context)
+    end
+
+    # @return [Jaina::Parser::Expression::Operator::Abstract]
+    #
+    # @api private
+    # @since 0.2.0
+    def expression
+      expressions.first
+    end
   end
 end

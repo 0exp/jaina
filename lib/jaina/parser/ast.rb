@@ -3,6 +3,9 @@
 # @api private
 # @since 0.1.0
 class Jaina::Parser::AST
+  # @since 0.2.0
+  extend Forwardable
+
   require_relative './ast/tree'
   require_relative './ast/tree_builder'
   require_relative './ast/evaluator'
@@ -18,15 +21,6 @@ class Jaina::Parser::AST
       ast_tree = Jaina::Parser::AST::TreeBuilder.build(program)
       new(program, ast_tree)
     end
-
-    # @param program [String] Program string in prefix form
-    # @return [Any]
-    #
-    # @api private
-    # @since 0.1.0
-    def evaluate(program)
-      build(program).evaluate
-    end
   end
 
   # @return [Jaina::Pasrer::AST::Tree]
@@ -40,6 +34,9 @@ class Jaina::Parser::AST
   # @api private
   # @since 0.1.0
   attr_reader :program
+
+  # @since 0.2.0
+  def_delegator :ast_tree, :root
 
   # @param program [String]
   # @param ast_tree [Jaina::Parser::AST::Tree]

@@ -32,4 +32,10 @@ class Jaina::Parser::AST::Tree
     @ast_oriented_program = ast_oriented_program
     @expression = expression
   end
+
+  # @return [Jaina::Parser::Expression::operator::Abstract]
+  #
+  # @api private
+  # @since 0.1.0
+  alias_method :root, :expression
 end

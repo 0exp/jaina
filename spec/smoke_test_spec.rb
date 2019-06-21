@@ -52,5 +52,29 @@ describe 'Smoke test' do
     expect { Jaina.parse('A AND KEK') }.to raise_error(
       Jaina::Parser::Expression::Registry::UnregisteredExpressionError
     )
+
+    # NOTE: new operand: returns true and sets 1 to the global AST context
+    g = Class.new(Jaina::TerminalExpr) do
+      token 'G'
+
+      def evaluate(context)
+        context.set(:g_expression, 1)
+      end
+    end
+    Jaina.register_expression(g)
+
+    # NOTE: new operand: sets (g_expression + 10)
+    j = Class.new(Jaina::TerminalExpr) do
+      token 'J'
+
+      def evaluate(context)
+        context.set(:g_expression, (context.get(:g_expression) + 10))
+      end
+    end
+    Jaina.register_expression(j)
+
+    # NOTE: evaluation
+    expect(Jaina.evaluate('G AND J')).to eq(11)
+    expect(Jaina.evaluate('G AND (J AND J) OR E')).to eq(21)
   end
 end
