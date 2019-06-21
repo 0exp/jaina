@@ -53,28 +53,52 @@ describe 'Smoke test' do
       Jaina::Parser::Expression::Registry::UnregisteredExpressionError
     )
 
-    # NOTE: new operand: returns true and sets 1 to the global AST context
-    g = Class.new(Jaina::TerminalExpr) do
-      token 'G'
+    # --- Full example ---
+
+    # step 1: create first operand
+    add_number = Class.new(Jaina::TerminalExpr) do
+      token 'ADD'
 
       def evaluate(context)
-        context.set(:g_expression, 1)
+        context.set(:current_value, context.get(:current_value) + 10)
       end
     end
-    Jaina.register_expression(g)
 
-    # NOTE: new operand: sets (g_expression + 10)
-    j = Class.new(Jaina::TerminalExpr) do
-      token 'J'
+    # step 2: create second operand
+    check_number = Class.new(Jaina::TerminalExpr) do
+      token 'CHECK'
 
       def evaluate(context)
-        context.set(:g_expression, (context.get(:g_expression) + 10))
+        context.get(:current_value) < 0
       end
     end
-    Jaina.register_expression(j)
 
-    # NOTE: evaluation
-    expect(Jaina.evaluate('G AND J')).to eq(11)
-    expect(Jaina.evaluate('G AND (J AND J) OR E')).to eq(21)
+    # step 3: create third operand
+    init_state = Class.new(Jaina::TerminalExpr) do
+      token 'INIT'
+
+      def evaluate(context)
+        context.set(:current_value, 0)
+      end
+    end
+
+    # step 4: register new oeprands
+    Jaina.register_expression(add_number)
+    Jaina.register_expression(check_number)
+    Jaina.register_expression(init_state)
+
+    # step 5: run your program
+
+    # NOTE: with initial context
+    Jaina.evaluate('CHECK AND ADD', current_value: -1) # => false
+    Jaina.evaluate('CHECK AND ADD', current_value: 2) # => 12
+    # NOTE: without initial context
+    Jaina.evaluate('INIT AND ADD') # => 10
+    Jaina.evaluate('INIT AND (CHECK OR ADD)') # => 12
+
+    # NOTE: fail on incorrect context usage (when the required context key does not exist)
+    expect { Jaina.evaluate('CHECK') }.to raise_error(
+      Jaina::Parser::AST::Context::UndefinedContextKeyError
+    )
   end
 end

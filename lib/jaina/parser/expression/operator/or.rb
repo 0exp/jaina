@@ -23,7 +23,7 @@ module Jaina::Parser::Expression::Operator
     # @api private
     # @since 0.2.0
     def left_expression
-      expressions.first
+      expressions[0]
     end
 
     # @return [Jaina::Parser::Expression::Operator::Abstract]
@@ -31,7 +31,7 @@ module Jaina::Parser::Expression::Operator
     # @api private
     # @since 0.2.0
     def right_expression
-      expressions.second
+      expressions[1]
     end
   end
 end

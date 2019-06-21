@@ -28,6 +28,7 @@ require 'jaina'
 - [Parse your code (build AST)](#parse-your-code-build-ast)
 - [Evaluate your code](#evaluate-your-code)
 - [List registered operands and operators](#list-and-fetch-registered-operands-and-operators)
+- [Full example](#example)
 
 ---
 
@@ -117,6 +118,9 @@ ast.evaluate
 
 # --- or ---
 Jaina.evaluate('A AND B AND (C OR D) OR A AND (C OR E)')
+
+# --- you can set initial context of your program ---
+Jaina.evaluate('A AND B', login: 'admin', logged_in: true)
 ```
 
 ---
@@ -140,6 +144,51 @@ Jaina.fetch_expression("A") # => A
 
 Jaina.fetch_expression("KEK")
 # => raises Jaina::Parser::Expression::Registry::UnregisteredExpressionError
+```
+
+---
+
+### Full example
+
+```ruby
+# step 1: register new operand
+class AddNumber < Jaina::TerminalExpr
+  token 'ADD'
+
+  def evaluate(context)
+    context.set(:current_value, context.get(:current_value) + 10)
+  end
+end
+
+# step 2: register another new operand
+class CheckNumber < Jaina::TerminalExpr
+  token 'CHECK'
+
+  def evaluate(context)
+    context.get(:current_value) < 0
+  end
+end
+
+class InitState < Jaina::TerminalExpr
+  token 'INIT'
+
+  def evaluate(context)
+    context.set(:current_value, 0)
+  end
+end
+
+# step 3: register new oeprands
+Jaina.register_expression(AddNumber)
+Jaina.register_expression(CheckNumber)
+Jaina.register_expression(InitState)
+
+# step 4: run your program
+# NOTE: with initial context
+Jaina.evaluate('CHECK AND ADD', current_value: -1) # => false
+Jaina.evaluate('CHECK AND ADD', current_value: 2) # => 12
+# NOTE: without initial context
+Jaina.evaluate('INIT AND ADD') # => 10
+Jaina.evaluate('INIT AND (CHECK OR ADD)') # => 12
 ```
 
 ---

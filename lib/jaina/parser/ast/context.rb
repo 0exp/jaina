@@ -8,12 +8,13 @@ class Jaina::Parser::AST::Context
   # @since 0.1.0
   UndefinedContextKeyError = Class.new(Error)
 
+  # @param initial_context [Hash<Symbol,Any>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def initialize
-    @data = {}
+  def initialize(**initial_context)
+    @data = {}.merge!(initial_context)
     @access_lock = Mutex.new
   end
 

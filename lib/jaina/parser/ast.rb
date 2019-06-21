@@ -49,11 +49,12 @@ class Jaina::Parser::AST
     @ast_tree = ast_tree
   end
 
+  # @param initial_context [Hash<Symbol,Any>]
   # @return [Any]
   #
   # @api private
   # @since 0.1.0
-  def evaluate
-    Jaina::Parser::AST::Evaluator.evaluate(self)
+  def evaluate(**initial_context)
+    Jaina::Parser::AST::Evaluator.evaluate(self, **initial_context)
   end
 end

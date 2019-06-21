@@ -24,12 +24,13 @@ module Jaina
     end
 
     # @param program [String]
+    # @param initial_context [Hash<Symbol,Any>]
     # @return [Any]
     #
     # @api public
     # @since 0.1.0
-    def evaluate(program)
-      parse(program).evaluate
+    def evaluate(program, **initial_context)
+      parse(program).evaluate(**initial_context)
     end
 
     # @param expression_klass [Class{Jaina::Parser::Expression::Operator::Abstract}]
