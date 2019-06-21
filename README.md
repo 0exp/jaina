@@ -183,9 +183,11 @@ Jaina.register_expression(CheckNumber)
 Jaina.register_expression(InitState)
 
 # step 4: run your program
+
 # NOTE: with initial context
 Jaina.evaluate('CHECK AND ADD', current_value: -1) # => false
 Jaina.evaluate('CHECK AND ADD', current_value: 2) # => 12
+
 # NOTE: without initial context
 Jaina.evaluate('INIT AND ADD') # => 10
 Jaina.evaluate('INIT AND (CHECK OR ADD)') # => 12
