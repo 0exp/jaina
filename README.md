@@ -28,7 +28,7 @@ require 'jaina'
 - [Parse your code (build AST)](#parse-your-code-build-ast)
 - [Evaluate your code](#evaluate-your-code)
 - [List registered operands and operators](#list-and-fetch-registered-operands-and-operators)
-- [Full example](#example)
+- [Full example](#full-example)
 
 ---
 
