@@ -21,8 +21,9 @@ class Jaina::Parser::AST::Tree
   # @since 0.1.0
   attr_reader :expression
 
-  # @param initial_program [String]
-  # @param expression [Jaina::Parser::Expression::Operator::Abstract]
+  # @option initial_program [String]
+  # @option ast_oriented_program [String]
+  # @option expression [Jaina::Parser::Expression::Operator::Abstract]
   # @return [void]
   #
   # @api private
@@ -36,6 +37,6 @@ class Jaina::Parser::AST::Tree
   # @return [Jaina::Parser::Expression::operator::Abstract]
   #
   # @api private
-  # @since 0.1.0
+  # @since 0.3.0
   alias_method :root, :expression
 end
