@@ -151,7 +151,7 @@ Jaina.fetch_expression("KEK")
 ### Full example
 
 ```ruby
-# step 1: register new operand
+# step 1: create new operand
 class AddNumber < Jaina::TerminalExpr
   token 'ADD'
 
@@ -160,7 +160,7 @@ class AddNumber < Jaina::TerminalExpr
   end
 end
 
-# step 2: register another new operand
+# step 2: create another new operand
 class CheckNumber < Jaina::TerminalExpr
   token 'CHECK'
 
@@ -169,6 +169,7 @@ class CheckNumber < Jaina::TerminalExpr
   end
 end
 
+# step 4: and another new :)
 class InitState < Jaina::TerminalExpr
   token 'INIT'
 
@@ -177,12 +178,12 @@ class InitState < Jaina::TerminalExpr
   end
 end
 
-# step 3: register new oeprands
+# step 5: register new oeprands
 Jaina.register_expression(AddNumber)
 Jaina.register_expression(CheckNumber)
 Jaina.register_expression(InitState)
 
-# step 4: run your program
+# step 6: run your program
 
 # NOTE: with initial context
 Jaina.evaluate('CHECK AND ADD', current_value: -1) # => false
