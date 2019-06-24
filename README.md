@@ -27,6 +27,7 @@ require 'jaina'
 - [Context API](#context-api)
 - [Parse your code (build AST)](#parse-your-code-build-ast)
 - [Evaluate your code](#evaluate-your-code)
+- [Custom operator/operand arguments](#custom-operatoroperand-arguments)
 - [List registered operands and operators](#list-and-fetch-registered-operands-and-operators)
 - [Full example](#full-example)
 
