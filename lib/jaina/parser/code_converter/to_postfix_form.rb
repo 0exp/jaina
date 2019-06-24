@@ -51,7 +51,7 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
   # @since 0.1.0
   attr_reader :program
 
-  # @return [Array<String>]
+  # @return [Array<Jaina::Parser::Tokenizer::Token>]
   #
   # @api private
   # @since 0.1.0
@@ -70,13 +70,13 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
       current_token = token_series.shift
 
       case
-      when non_terminal?(current_token)
+      when non_terminal?(current_token.token)
         process_non_terminal_token(final_expression, structure_operators, current_token)
-      when group_opener?(current_token)
+      when group_opener?(current_token.token)
         process_group_opening_token(final_expression, structure_operators, current_token)
-      when group_closener?(current_token)
+      when group_closener?(current_token.token)
         process_group_closing_token(final_expression, structure_operators, current_token)
-      when terminal?(current_token)
+      when terminal?(current_token.token)
         process_terminal_token(final_expression, structure_operators, current_token)
       end
     end
@@ -89,7 +89,7 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
 
   # @param final_expression [Array<String>]
   # @param structure_operators [Array<String>]
-  # @param current_token [String]
+  # @param current_token [Jaina::Parser::Tokenizer::Token]
   # @return [void]
   #
   # @api private
@@ -98,12 +98,14 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
     if structure_operators.any? # NOTE: check assocaitivity with potential next token
       potential_second_token = structure_operators.last
 
-      if non_terminal?(potential_second_token)
-        current_expression = Jaina::Parser::Expression.fetch(current_token)
-        next_expression    = Jaina::Parser::Expression.fetch(potential_second_token)
+      if non_terminal?(potential_second_token.token)
+        current_expression = Jaina::Parser::Expression.fetch(current_token.token)
+        next_expression    = Jaina::Parser::Expression.fetch(potential_second_token.token)
 
         # NOTE: form infix to postfix form switching
-        final_expression.push(structure_operators.pop) if current_expression.lower?(next_expression)
+        if current_expression.lower?(next_expression)
+          final_expression.push(structure_operators.pop)
+        end
       end
     end
 
@@ -112,7 +114,7 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
 
   # @param final_expression [Array<String>]
   # @param structure_operators [Array<String>]
-  # @param current_token [String]
+  # @param current_token [Jaina::Parser::Tokenizer::Token]
   # @return [void]
   #
   # @api private
@@ -124,13 +126,13 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
 
   # @param final_expression [Array<String>]
   # @param structure_operators [Array<String>]
-  # @param current_token [String]
+  # @param current_token [Jaina::Parser::Tokenizer::Token]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
   def process_group_closing_token(final_expression, structure_operators, current_token)
-    until group_opener?(structure_operators.last)
+    until group_opener?(structure_operators.last.token)
       # NOTE: push all tokens to the final expression
       final_expression.push(structure_operators.pop)
     end
@@ -141,7 +143,7 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
 
   # @param final_expression [Array<String>]
   # @param structure_operators [Array<String>]
-  # @param current_token [String]
+  # @param current_token [Jaina::Parser::Tokenizer::Token]
   # @return [void]
   #
   # @api private
@@ -153,7 +155,7 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
 
   # @param final_expression [Array<String>]
   # @param structure_operators [Array<String>]
-  # @param current_token [String]
+  # @param current_token [Jaina::Parser::Tokenizer::Token]
   # @return [void]
   #
   # @api private

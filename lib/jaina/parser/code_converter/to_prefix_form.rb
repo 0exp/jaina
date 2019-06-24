@@ -53,7 +53,7 @@ class Jaina::Parser::CodeConverter::ToPrefixForm
   # @since 0.1.0
   attr_reader :postfix_form
 
-  # @return [Array<String>]
+  # @return [Array<Jaina::Parser::Tokenizer::Token>]
   #
   # @api private
   # @since 0.1.0
@@ -71,15 +71,15 @@ class Jaina::Parser::CodeConverter::ToPrefixForm
       current_token = token_series.shift
 
       case
-      when terminal?(current_token)
+      when terminal?(current_token.token)
         process_terminal_token(current_token, expression_stack)
-      when non_terminal?(current_token)
+      when non_terminal?(current_token.token)
         process_non_terminal_token(current_token, expression_stack)
       end
     end
 
     # NOTE: build prefixed program string
-    Jaina::Parser::Tokenizer.join(expression_stack)
+    Jaina::Parser::Tokenizer.raw_join(expression_stack)
   end
 
   # @param current_token [String]
@@ -89,7 +89,7 @@ class Jaina::Parser::CodeConverter::ToPrefixForm
   # @api private
   # @since 0.1.0
   def process_terminal_token(current_token, expression_stack)
-    expression_stack.push(current_token)
+    expression_stack.push(current_token.raw_token)
   end
 
   # @param current_token [String]
@@ -99,22 +99,22 @@ class Jaina::Parser::CodeConverter::ToPrefixForm
   # @api private
   # @since 0.1.0
   def process_non_terminal_token(current_token, expression_stack)
-    expression = Jaina::Parser::Expression.fetch(current_token)
+    expression = Jaina::Parser::Expression.fetch(current_token.token)
 
     case # TODO: dry
     when expression.acts_as_binary_term?
       first_operand  = expression_stack.pop
       second_operand = expression_stack.pop
 
-      prefixed_expression_parts = [expression.token, second_operand, first_operand]
-      prefixed_expression = Jaina::Parser::Tokenizer.join(prefixed_expression_parts)
+      prefixed_expression_parts = [current_token.raw_token, second_operand, first_operand]
+      prefixed_expression = Jaina::Parser::Tokenizer.raw_join(prefixed_expression_parts)
 
       expression_stack.push(prefixed_expression)
     when expression.acts_as_unary_term?
       operand = expression_stack.pop
 
-      prefixed_expression_parts = [expression.token, operand]
-      prefixed_expression = Jaina::Parser::Tokenizer.join(prefixed_expression_parts)
+      prefixed_expression_parts = [current_token.raw_token, operand]
+      prefixed_expression = Jaina::Parser::Tokenizer.raw_join(prefixed_expression_parts)
 
       expression_stack.push(prefixed_expression)
     end

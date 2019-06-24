@@ -34,18 +34,26 @@ class Jaina::Parser::Expression::Operator::Abstract
     end
   end
 
+  # @return [Array<Any>]
+  #
+  # @api private
+  # @since 0.4.0
+  attr_reader :arguments
+
   # @return [Array<Jaina::Parser::Expressions::Operator::Abstract>]
   #
   # @api private
   # @since 0.1.0
   attr_reader :expressions
 
-  # @param expressions [Array<Jaina::Parser::Expression::Operator::Abstract>]
+  # @option arguments [Array<Any>]
+  # @option expressions [Array<Jaina::Parser::Expression::Operator::Abstract>]
   # @return [void]
   #
   # @api private
   # @since 0.1.0
-  def initialize(*expressions)
+  def initialize(arguments: [], expressions: [])
+    @arguments   = arguments
     @expressions = expressions
   end
 

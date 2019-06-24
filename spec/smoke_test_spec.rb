@@ -24,6 +24,10 @@ describe 'Smoke test' do
     ast = Jaina.parse('(A AND B) OR C AND (E OR D) AND (NOT C)')
     expect(ast.ast_tree.ast_oriented_program).to eq('AND AND OR AND A B C OR E D NOT C')
 
+    # NOTE: parse with attributes
+    ast = Jaina.parse('(A[1,2] AND B[3,4] OR C AND (E[asdf] OR D)')
+    expect(ast.ast_tree.ast_oriented_program).to eq('AND OR AND A[1,2] B[3,4] C OR E[asdf] D')
+
     # NOTE: get registered expression names
     expect(Jaina.expressions).to contain_exactly(
       'A', 'B', 'C', 'D', 'E', 'AND', 'OR', 'NOT', '(', ')'
@@ -53,6 +57,11 @@ describe 'Smoke test' do
       Jaina::Parser::Expression::Registry::UnregisteredExpressionError
     )
 
+    # NOTE: fail on incorrect attribute syntax
+    expect { Jaina.parse('A][') }.to raise_error(
+      Jaina::Parser::Tokenizer::TokenBuilder::IncorrectTokenDefinitionError
+    )
+
     # --- Full example ---
 
     # step 1: create first operand
@@ -69,7 +78,7 @@ describe 'Smoke test' do
       token 'CHECK'
 
       def evaluate(context)
-        context.get(:current_value) < 0
+        context.get(:current_value) > 0
       end
     end
 
@@ -78,7 +87,9 @@ describe 'Smoke test' do
       token 'INIT'
 
       def evaluate(context)
-        context.set(:current_value, 0)
+        initial_value = arguments[0] || 0 # NOTE: support for arguments
+
+        context.set(:current_value, initial_value)
       end
     end
 
@@ -90,11 +101,11 @@ describe 'Smoke test' do
     # step 5: run your program
 
     # NOTE: with initial context
-    Jaina.evaluate('CHECK AND ADD', current_value: -1) # => false
-    Jaina.evaluate('CHECK AND ADD', current_value: 2) # => 12
+    expect(Jaina.evaluate('CHECK AND ADD', current_value: -1)).to eq(false)
+    expect(Jaina.evaluate('CHECK AND ADD', current_value: 2)).to eq(12)
     # NOTE: without initial context
-    Jaina.evaluate('INIT AND ADD') # => 10
-    Jaina.evaluate('INIT AND (CHECK OR ADD)') # => 12
+    expect(Jaina.evaluate('INIT AND ADD')).to eq(10)
+    expect(Jaina.evaluate('INIT[100] AND (CHECK AND ADD)')).to eq(110)
 
     # NOTE: fail on incorrect context usage (when the required context key does not exist)
     expect { Jaina.evaluate('CHECK') }.to raise_error(

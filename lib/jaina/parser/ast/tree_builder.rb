@@ -64,13 +64,13 @@ class Jaina::Parser::AST::TreeBuilder
   # @since 0.1.0
   attr_reader :prefix_form
 
-  # @return [Array<String>]
+  # @return [Array<Jaina::Parser::Tokenizer::Token>]
   #
   # @api private
   # @since 0.1.0
   attr_reader :tokens
 
-  # @param token_series [Array<String>]
+  # @param token_series [Array<Jaina::Parser::Tokenizer::Token>]
   # @return [Array<Jaina::Parser::Expression::Operator::Abstract>]
   #
   # @api private
@@ -80,14 +80,14 @@ class Jaina::Parser::AST::TreeBuilder
     return if current_token.nil?
 
     case
-    when terminal?(current_token)
+    when terminal?(current_token.token)
       build_terminal_expression(current_token)
-    when non_terminal?(current_token)
+    when non_terminal?(current_token.token)
       build_non_terminal_expression(current_token, token_series)
     end
   end
 
-  # @param token_series [Array<String>]
+  # @param token_series [Array<Jaina::Parser::Tokenizer::Token>]
   # @return [String, NilClass]
   #
   # @api private
@@ -96,7 +96,7 @@ class Jaina::Parser::AST::TreeBuilder
     token_series.shift
   end
 
-  # @param current_token [String]
+  # @param current_token [Jaina::Parser::Tokenizer::Token]
   # @return [Jaina::Parser::Expression::Operator::Abstract]
   #
   # @api private
@@ -105,20 +105,20 @@ class Jaina::Parser::AST::TreeBuilder
     Jaina::Parser::Expression.build(current_token)
   end
 
-  # @param current_token [String]
-  # @param token_series [Array<String>]
+  # @param current_token [Jaina::Parser::Tokenizer::Token]
+  # @param token_series [Array<Jaina::Parser::Tokenizer::Token>]
   # @return [Jaina::Parser::Expression::Operator::Abstract]
   #
   # @api private
   # @since 0.1.0
   def build_non_terminal_expression(current_token, token_series)
     case
-    when acts_as_unary_term?(current_token)
+    when acts_as_unary_term?(current_token.token)
       Jaina::Parser::Expression.build(
         current_token,
         build_expression_tree(token_series)
       )
-    when acts_as_binary_term?(current_token)
+    when acts_as_binary_term?(current_token.token)
       Jaina::Parser::Expression.build(
         current_token,
         build_expression_tree(token_series),

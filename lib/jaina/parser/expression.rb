@@ -21,15 +21,15 @@ module Jaina::Parser::Expression
   register(Operator::RightCorner)
 
   class << self
-    # @param expression_token [String]
+    # @param expression_token [Jaina::Parser::Tokenizer::Token]
     # @param arguments [Array<Any>]
     # @return [Jaina::Parser::Expression::Operator::Abstract]
     #
     # @api private
     # @since 0.1.0
-    def build(expression_token, *arguments)
-      expression = fetch(expression_token)
-      arguments.any? ? expression.new(*arguments) : expression.new
+    def build(expression_token, *expression_arguments)
+      expression = fetch(expression_token.token)
+      expression.new(arguments: expression_token.arguments, expressions: expression_arguments)
     end
 
     # @param expression_token [String]
@@ -82,6 +82,8 @@ module Jaina::Parser::Expression
     # @since 0.1.0
     def acts_as_unary_term?(expression_token)
       fetch(expression_token).acts_as_unary_term?
+    rescue => error
+      binding.pry
     end
   end
 end
