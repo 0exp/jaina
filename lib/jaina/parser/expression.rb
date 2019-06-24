@@ -82,8 +82,6 @@ module Jaina::Parser::Expression
     # @since 0.1.0
     def acts_as_unary_term?(expression_token)
       fetch(expression_token).acts_as_unary_term?
-    rescue => error
-      binding.pry
     end
   end
 end
