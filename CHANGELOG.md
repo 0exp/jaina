@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.4.0] - 2019-06-24
 ### Added
-- Support for operand attributes and operator attributes;
+- Support for operand arguments and operator arguments;
 
 ## [0.3.0] - 2019-06-21
 ### Added
