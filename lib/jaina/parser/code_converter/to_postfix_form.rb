@@ -61,7 +61,7 @@ class Jaina::Parser::CodeConverter::ToPostfixForm
   #
   # @api private
   # @since 0.1.0
-  def to_postfix_form
+  def to_postfix_form # rubocop:disable Metrics/AbcSize
     final_expression = []
     structure_operators = []
     token_series = tokens.map(&:dup)

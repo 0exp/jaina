@@ -54,7 +54,7 @@ class Jaina::Parser::Tokenizer::TokenBuilder
   # @api private
   # @since 0.4.0
   def build
-    сheck_for_correctness!
+    check_for_correctness!
 
     # NOTE:
     #   format: token [ attr1, attr2, attr3 ]
@@ -63,7 +63,7 @@ class Jaina::Parser::Tokenizer::TokenBuilder
     #     CLOSING BRAKET => parts[-1]
     #     ARGUMENTS => parts[2..-2]
     token = parts[0]
-    arguments = (parts.count == 0) ? [] : parts[2..-2]
+    arguments = parts.count.zero? ? [] : parts[2..-2]
     arguments = ArgumentTypeCaster.cast(*arguments)
 
     Jaina::Parser::Tokenizer::Token.new(raw_token, token, *arguments)
@@ -87,7 +87,7 @@ class Jaina::Parser::Tokenizer::TokenBuilder
   #
   # @api private
   # @since 0.4.0
-  def сheck_for_correctness!
+  def check_for_correctness! # rubocop:disable Metrics/AbcSize
     # NOTE: parts array contains a token only
     return if parts.count == 1
 
@@ -105,12 +105,11 @@ class Jaina::Parser::Tokenizer::TokenBuilder
     #     CLOSING BRAKET => parts[-1]
     #     ARGUMENTS => parts[2..-2]
 
-    potential_token = parts[0]
     opening_corner  = parts[1]
     closing_corner  = parts[-1]
     arguments       = parts[2..-2]
 
-    # rubocop:disable # rubocop:disable Metrics/LineLength
+    # rubocop:disable Metrics/LineLength
     if arguments.include?(OPENING_ATTRIBUTE_GROUP_SYMBOL) || opening_corner != OPENING_ATTRIBUTE_GROUP_SYMBOL
       raise(
         IncorrectTokenDefinitionError,
@@ -124,5 +123,6 @@ class Jaina::Parser::Tokenizer::TokenBuilder
         "Incorrect token definition `#{raw_token}`: `]` should be the last arguments closing symbol."
       )
     end
+    # rubocop:enable Metrics/LineLength
   end
 end
