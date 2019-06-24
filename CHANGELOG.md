@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2019-06-24
+### Added
+- Support for operand attributes and operator attributes;
+
 ## [0.3.0] - 2019-06-21
 ### Added
 - Support for initial context: `Jaina.evaluate(program, **initial_context)`

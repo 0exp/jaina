@@ -104,8 +104,13 @@ context.get(:b) # => Jaina::Parser::AST::Contex::UndefinedContextKeyError
 ### Parse your code (build AST)
 
 ```ruby
+# NOTE: without arguments
 Jaina.parse('A AND B AND (C OR D) OR A AND (C OR E)')
 # => #<Jaina::Parser::AST:0x00007fd6f424a2e8>
+
+# NOTE: with arguments
+Jaina.parse('A[1,2] AND B[3,4]')
+# => #<Jaina::Parser::AST:0x00007fd6f424a2e9>
 ```
 
 ---
@@ -113,14 +118,43 @@ Jaina.parse('A AND B AND (C OR D) OR A AND (C OR E)')
 ### Evaluate your code
 
 ```ruby
-ast = Jaina.parse('A AND B AND (C OR D) OR A AND (C OR E)')
+ast = Jaina.parse('A AND B[5,test] AND (C OR D) OR A AND (C OR E)')
 ast.evaluate
 
 # --- or ---
-Jaina.evaluate('A AND B AND (C OR D) OR A AND (C OR E)')
+Jaina.evaluate('A AND B[5,test] AND (C OR D) OR A AND (C OR E)')
 
 # --- you can set initial context of your program ---
-Jaina.evaluate('A AND B', login: 'admin', logged_in: true)
+Jaina.evaluate('A AND B[5,test]', login: 'admin', logged_in: true)
+```
+
+---
+
+### Custom operator/operand arguments
+
+```ruby
+# NOTE: use []
+Jaina.parse('A[1,true] AND B[false,"false"]')
+
+# NOTE:
+#   all your arguments will be typecasted to
+#   the concrete type inferred from the argument literal
+
+Jaina.parse('A[1,true,false,"false"]') # 1, true, false "false"
+
+# NOTE: access to the argument list
+class A < Jaina::TerminalExpr
+  token 'A'
+
+  def evaluate(context)
+    # A[1,true,false,"false"]
+
+    arguments[0] # => 1
+    arguments[1] # => true
+    arguments[2] # => false
+    arguments[3] # => "false"
+  end
+end
 ```
 
 ---
@@ -174,7 +208,9 @@ class InitState < Jaina::TerminalExpr
   token 'INIT'
 
   def evaluate(context)
-    context.set(:current_value, 0)
+    initial_value = arguments[0] || 0
+
+    context.set(:current_value, initial_value)
   end
 end
 
@@ -186,12 +222,15 @@ Jaina.register_expression(InitState)
 # step 6: run your program
 
 # NOTE: with initial context
-Jaina.evaluate('CHECK AND ADD', current_value: -1) # => false
-Jaina.evaluate('CHECK AND ADD', current_value: 2) # => 12
+Jaina.evaluate('CHECK AND ADD', current_value: -1) # => 9
+Jaina.evaluate('CHECK AND ADD', current_value: 2) # => false
 
 # NOTE: without initial context
 Jaina.evaluate('INIT AND ADD') # => 10
-Jaina.evaluate('INIT AND (CHECK OR ADD)') # => 12
+Jaina.evaluate('INIT AND (CHECK OR ADD)') # => 10
+
+# NOTE: with arguments
+Jaina.evaluate('INIT[100] AND ADD') => # 112
 ```
 
 ---
