@@ -14,7 +14,7 @@ module Jaina::Parser::Expression::Operator
     #
     # @api private
     # @since 0.2.0
-    def evaluate(contenxt)
+    def evaluate(context)
       !expression.evaluate(context)
     end
 

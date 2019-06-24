@@ -107,6 +107,9 @@ describe 'Smoke test' do
     expect(Jaina.evaluate('INIT AND ADD')).to eq(10)
     expect(Jaina.evaluate('INIT[100] AND (CHECK AND ADD)')).to eq(110)
 
+    expect(Jaina.evaluate('NOT CHECK AND ADD', current_value: -1)).to eq(9)
+    expect(Jaina.evaluate('NOT CHECK', current_value: -1)).to eq(true)
+
     # NOTE: fail on incorrect context usage (when the required context key does not exist)
     expect { Jaina.evaluate('CHECK') }.to raise_error(
       Jaina::Parser::AST::Context::UndefinedContextKeyError
