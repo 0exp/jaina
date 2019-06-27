@@ -38,6 +38,15 @@ class Jaina::Parser::Expression::Registry
   # @api private
   # @since 0.1.0
   def register(expression)
+    thread_safe { add(expression) }
+  end
+
+  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
+  # @return [void]
+  #
+  # @api private
+  # @since 0.5.0
+  def redefine(expression)
     thread_safe { apply(expression) }
   end
 
@@ -92,15 +101,32 @@ class Jaina::Parser::Expression::Registry
   # @return [void]
   #
   # @raise [Jaina::Parser::Expression::Registry::AlreadyRegisteredExpressionError]
+  # @raise [Jaina::Parser::Expression::Registry::IncorrectExpressionObjectError]
   #
   # @api private
-  # @since 0.1.0
-  def apply(expression)
+  # @since 0.5.0
+  def add(expression)
     raise(
       AlreadyRegisteredExpressionError,
       "Expression with token `#{expression.token}` already exist"
     ) if registered?(expression.token)
 
+    raise(
+      IncorrectExpressionObjectError,
+      'Expression should be a subtype of Jaina::Parser::Expression::Operation::Abstract'
+    ) unless expression.is_a?(Class) && expression < Jaina::Parser::Expression::Operator::Abstract
+
+    expression_set[expression.token] = expression
+  end
+
+  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
+  # @return [void]
+  #
+  # @raise [Jaina::Parser::Expression::Registry::IncorrectExpressionObjectError]
+  #
+  # @api private
+  # @since 0.5.0
+  def apply(expression)
     raise(
       IncorrectExpressionObjectError,
       'Expression should be a subtype of Jaina::Parser::Expression::Operation::Abstract'

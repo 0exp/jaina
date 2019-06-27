@@ -8,6 +8,7 @@ describe 'Smoke test' do
     c = Class.new(Jaina::TerminalExpr) { token 'C' }
     d = Class.new(Jaina::TerminalExpr) { token 'D' }
     e = Class.new(Jaina::TerminalExpr) { token 'E' }
+    x = Class.new(Jaina::TerminalExpr) { token 'X' }
 
     # NOTE: register expressions
     Jaina.register_expression(a)
@@ -15,6 +16,7 @@ describe 'Smoke test' do
     Jaina.register_expression(c)
     Jaina.register_expression(d)
     Jaina.register_expression(e)
+    Jaina.register_expression(x)
 
     # NOTE: parse basic operators and new registered expressions
     ast = Jaina.parse('(A AND B) OR C AND (E OR D)')
@@ -30,7 +32,7 @@ describe 'Smoke test' do
 
     # NOTE: get registered expression names
     expect(Jaina.expressions).to contain_exactly(
-      'A', 'B', 'C', 'D', 'E', 'AND', 'OR', 'NOT', '(', ')'
+      'A', 'B', 'C', 'D', 'E', 'AND', 'OR', 'NOT', '(', ')', 'X'
     )
 
     # NOTE: fetch new registered expression
@@ -39,6 +41,7 @@ describe 'Smoke test' do
     expect(Jaina.fetch_expression('C')).to eq(c)
     expect(Jaina.fetch_expression('D')).to eq(d)
     expect(Jaina.fetch_expression('E')).to eq(e)
+    expect(Jaina.fetch_expression('X')).to eq(x)
 
     # NOTE: fetch core expressions
     expect(Jaina.fetch_expression('AND')).to eq(Jaina::Parser::Expression::Operator::And)
@@ -46,6 +49,11 @@ describe 'Smoke test' do
     expect(Jaina.fetch_expression('NOT')).to eq(Jaina::Parser::Expression::Operator::Not)
     expect(Jaina.fetch_expression('(')).to   eq(Jaina::Parser::Expression::Operator::LeftCorner)
     expect(Jaina.fetch_expression(')')).to   eq(Jaina::Parser::Expression::Operator::RightCorner)
+
+    # NOTE: redefine expression
+    x_new = Class.new(Jaina::TerminalExpr) { token 'X' }
+    Jaina.redefine_expression(x_new)
+    expect(Jaina.fetch_expression('X')).to eq(x_new)
 
     # NOTE: fail on unregistered expression
     expect { Jaina.fetch_expression('KEK') }.to raise_error(

@@ -42,6 +42,15 @@ module Jaina
       Jaina::Parser::Expression.register(expression_klass)
     end
 
+    # @param expression_klass [Class{Jaina::Parser::Expression::Operator::Abstract}]
+    # @return [void]
+    #
+    # @api public
+    # @since 0.5.0
+    def redefine_expression(expression_klass)
+      Jaina::Parser::Expression.redefine(expression_klass)
+    end
+
     # @return [Array<String>]
     #
     # @api public
