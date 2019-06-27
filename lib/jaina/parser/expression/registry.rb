@@ -107,14 +107,14 @@ class Jaina::Parser::Expression::Registry
   # @since 0.5.0
   def add(expression)
     raise(
-      AlreadyRegisteredExpressionError,
-      "Expression with token `#{expression.token}` already exist"
-    ) if registered?(expression.token)
-
-    raise(
       IncorrectExpressionObjectError,
       'Expression should be a subtype of Jaina::Parser::Expression::Operation::Abstract'
     ) unless expression.is_a?(Class) && expression < Jaina::Parser::Expression::Operator::Abstract
+
+    raise(
+      AlreadyRegisteredExpressionError,
+      "Expression with token `#{expression.token}` already exist"
+    ) if registered?(expression.token)
 
     expression_set[expression.token] = expression
   end

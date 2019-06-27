@@ -60,6 +60,21 @@ describe 'Smoke test' do
       Jaina::Parser::Expression::Registry::UnregisteredExpressionError
     )
 
+    # NOTE: fail on "trying to register alredy registered exception"
+    expect { Jaina.register_expression(a) }.to raise_error(
+      Jaina::Parser::Expression::Registry::AlreadyRegisteredExpressionError
+    )
+
+    # NOTE: fail on "trying to register an incorrect object as an expression"
+    expect { Jaina.register_expression(123) }.to raise_error(
+      Jaina::Parser::Expression::Registry::IncorrectExpressionObjectError
+    )
+
+    # NOTE: fail on "trying to redefine expression with incorrect object"
+    expect { Jaina.redefine_expression(123) }.to raise_error(
+      Jaina::Parser::Expression::Registry::IncorrectExpressionObjectError
+    )
+
     # NOTE: fail on unexpected tokens
     expect { Jaina.parse('A AND KEK') }.to raise_error(
       Jaina::Parser::Expression::Registry::UnregisteredExpressionError
