@@ -43,6 +43,15 @@ module Jaina::Parser::Expression
         def register(expression)
           @__expression_registry__.register(expression)
         end
+
+        # @param expression [Class{Jaina::Parser::Expressions::Operator::Abstract}]
+        # @return [void]
+        #
+        # @api private
+        # @since 0.5.0
+        def redefine(expression)
+          @__expression_registry__.redefine(expression)
+        end
       end
     end
   end

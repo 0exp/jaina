@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2019-06-27
+### Added
+- An ability to redefine existing expressions (`Jaina.redefine(expression_klass)`);
+
 ## [0.4.1] - 2019-06-24
 ### Fixed
 - Fxied `NOT` operator (`#evaluate` fails on incorrect `context` varibale name);

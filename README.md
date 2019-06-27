@@ -74,6 +74,12 @@ end
 
 # step 2: regsiter your operand
 Jaina.register_expression(A)
+
+# step X: redefine existing operand (with the same token)
+class NewA < Jaina::TerminalExpr
+  token 'A'
+end
+Jaina.redefine_expression(NewA)
 ```
 
 ---
