@@ -5,5 +5,5 @@ module Jaina
   #
   # @api public
   # @since 0.0.0
-  VERSION = '0.4.1'
+  VERSION = '0.5.0'
 end
