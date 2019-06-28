@@ -110,19 +110,15 @@ class Jaina::Parser::Tokenizer::TokenBuilder
     arguments       = parts[2..-2]
 
     # rubocop:disable Metrics/LineLength
-    if arguments.include?(OPENING_ATTRIBUTE_GROUP_SYMBOL) || opening_corner != OPENING_ATTRIBUTE_GROUP_SYMBOL
-      raise(
-        IncorrectTokenDefinitionError,
-        "Incorrect token definition `#{raw_token}`: `[` should be the first arguments opening symbol."
-      )
-    end
+    raise(
+      IncorrectTokenDefinitionError,
+      "Incorrect token definition `#{raw_token}`: `[` should be the first arguments opening symbol."
+    ) if arguments.include?(OPENING_ATTRIBUTE_GROUP_SYMBOL) || opening_corner != OPENING_ATTRIBUTE_GROUP_SYMBOL
 
-    if arguments.include?(CLOSING_ATTRIBUTE_GROUP_SYMBOL) || closing_corner != CLOSING_ATTRIBUTE_GROUP_SYMBOL
-      raise(
-        IncorrectTokenDefinitionError,
-        "Incorrect token definition `#{raw_token}`: `]` should be the last arguments closing symbol."
-      )
-    end
+    raise(
+      IncorrectTokenDefinitionError,
+      "Incorrect token definition `#{raw_token}`: `]` should be the last arguments closing symbol."
+    ) if arguments.include?(CLOSING_ATTRIBUTE_GROUP_SYMBOL) || closing_corner != CLOSING_ATTRIBUTE_GROUP_SYMBOL
     # rubocop:enable Metrics/LineLength
   end
 end
