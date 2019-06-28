@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2019-06-28
+### Added
+- Support for cyrillic symbols in tokens;
+
 ## [0.6.0] - 2019-06-28
 ### Added
 - New token symbols (`-`, `=`, `>`, `<`): you can use these in your operands and operators;
