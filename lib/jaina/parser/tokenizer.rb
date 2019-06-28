@@ -10,7 +10,7 @@ module Jaina::Parser::Tokenizer
   #
   # @api private
   # @since 0.1.0
-  TOKEN_SCAN_PATTERN = /\(|\)|[\"\'\.\,\w\[\]]+/.freeze
+  TOKEN_SCAN_PATTERN = /\(|\)|[\=\-\>\:\"\'\.\,\w\[\]]+/.freeze
 
   # @return [String]
   #
