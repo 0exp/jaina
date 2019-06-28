@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2019-06-28
+### Added
+- New token symbols (`-`, `=`, `>`, `<`): you can use these in your operands and operators;
+
+### Fixed
+- Expression inheritance (internal state of the child of child isnt copied but should);
+
 ## [0.5.0] - 2019-06-27
 ### Added
 - An ability to redefine existing expressions (`Jaina.redefine(expression_klass)`);

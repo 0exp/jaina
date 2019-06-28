@@ -37,47 +37,19 @@ module Jaina::Parser::Expression::Operator::Abstract::DSL
       base_klass.instance_variable_set(:@acts_as_binary_term, false)
       base_klass.instance_variable_set(:@acts_as_unary_term, false)
 
-      base_klass.extend ClassMethods
-      base_klass.include InstanceMethods
-      base_klass.singleton_class.prepend(ClassInheritance)
-    end
-  end
+      base_klass.extend(ClassMethods)
+      base_klass.include(InstanceMethods)
 
-  # @api private
-  # @since 0.1.0
-  module ClassInheritance
-    # @param child_klass [Class]
-    # @return [void]
-    #
-    # @api private
-    # @since 0.1.0
-    def inherited(child_klass)
-      child_klass.instance_variable_set(
-        :@token,
-        instance_variable_get(:@token)
-      )
-
-      child_klass.instance_variable_set(
-        :@precedence_level,
-        instance_variable_get(:@precedence_level)
-      )
-
-      child_klass.instance_variable_set(
-        :@associativity_direction,
-        instance_variable_get(:@associativity_direction)
-      )
-
-      child_klass.instance_variable_set(
-        :@acts_as_binary_term,
-        instance_variable_get(:@acts_as_binary_term)
-      )
-
-      child_klass.instance_variable_set(
-        :@acts_as_unary_term,
-        instance_variable_get(:@acts_as_unary_term)
-      )
-
-      super
+      # NOTE: inheritance
+      base_klass.singleton_class.prepend(Module.new do
+        def inherited(child_klass)
+          child_klass.instance_variable_set(:@token, @token)
+          child_klass.instance_variable_set(:@precedence_level, @precedence_level)
+          child_klass.instance_variable_set(:@associativity_direction, @associativity_direction)
+          child_klass.instance_variable_set(:@acts_as_binary_term, @acts_as_binary_term)
+          child_klass.instance_variable_set(:@acts_as_unary_term, @acts_as_unary_term)
+        end
+      end)
     end
   end
 

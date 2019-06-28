@@ -85,6 +85,30 @@ describe 'Smoke test' do
       Jaina::Parser::Tokenizer::TokenBuilder::IncorrectTokenDefinitionError
     )
 
+    # NOTE: inheritance
+    y = Class.new(Jaina::Parser::Expression::Operator::And) { token '->' }
+    # - registered without conflicts
+    Jaina.register_expression(y)
+    # - same #precedence_level
+    expect(y.precedence_level).to eq(
+      Jaina::Parser::Expression::Operator::And.precedence_level
+    )
+    # - same #associativity_direction
+    expect(y.associativity_direction).to eq(
+      Jaina::Parser::Expression::Operator::And.associativity_direction
+    )
+    # - same #acts_as_binary_term state
+    expect(y.acts_as_binary_term?).to eq(
+      Jaina::Parser::Expression::Operator::And.acts_as_binary_term?
+    )
+    # - same #acts_as_unary_term state
+    expect(y.acts_as_unary_term?).to eq(
+      Jaina::Parser::Expression::Operator::And.acts_as_unary_term?
+    )
+    # - correct AST
+    ast = Jaina.parse('(A[1,2] -> B[3,4])')
+    expect(ast.ast_tree.ast_oriented_program).to eq('-> A[1,2] B[3,4]')
+
     # --- Full example ---
 
     # step 1: create first operand
