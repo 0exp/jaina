@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'Smoke test' do
+describe 'Features' do
   specify do
     # NOTE: create new expressions
     a = Class.new(Jaina::TerminalExpr) { token 'A' }
