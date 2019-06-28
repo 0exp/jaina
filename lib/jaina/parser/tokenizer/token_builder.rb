@@ -57,7 +57,7 @@ class Jaina::Parser::Tokenizer::TokenBuilder
     check_for_correctness!
 
     # NOTE:
-    #   format: token [ attr1, attr2, attr3 ]
+    #   format: token[attr1,attr2,attr3]
     #     TOKEN => parts[0]
     #     OPENING BRAKET => parts[1]
     #     CLOSING BRAKET => parts[-1]
@@ -95,7 +95,7 @@ class Jaina::Parser::Tokenizer::TokenBuilder
     raise(
       IncorrectTokenDefinitionError,
       "Incorrect token definition `#{raw_token}`: " \
-      "token should contain `[` and `]` if `[` is provided)"
+      "token should contain `[` and `]` if `[` is provided"
     ) if parts.count < 3
 
     # NOTE:
