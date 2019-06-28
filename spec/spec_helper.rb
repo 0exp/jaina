@@ -11,8 +11,8 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
 SimpleCov.start { add_filter 'spec' }
 
 require 'bundler/setup'
-require 'jaina'
 require 'pry'
+require 'jaina'
 
 RSpec.configure do |config|
   config.filter_run_when_matching :focus
