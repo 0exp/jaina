@@ -39,7 +39,7 @@ class Jaina::Parser::Tokenizer::Token
   # @api private
   # @since 0.4.0
   def dup
-    self.class.new(raw_token.dup, token.dup, *arguments)
+    self.class.new(raw_token.dup, token.dup, *arguments.dup)
   end
 
   # @return [String]
