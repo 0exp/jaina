@@ -180,7 +180,7 @@ Jaina.register_expression(C)
 Jaina.expressions
 # => ["AND", "OR", "NOT", "(", ")", "A", "B", "C"]
 
-Jaina.fetch_expression("AND") # => Jaina::Parser::Expression::Operator::And
+Jaina.fetch_expression("AND") # => Jaina::Parser::Expression::Unit::And
 Jaina.fetch_expression("A") # => A
 
 Jaina.fetch_expression("KEK")
