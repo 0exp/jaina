@@ -71,7 +71,7 @@ class Jaina::Parser::AST::TreeBuilder
   attr_reader :tokens
 
   # @param token_series [Array<Jaina::Parser::Tokenizer::Token>]
-  # @return [Array<Jaina::Parser::Expression::Operator::Abstract>]
+  # @return [Array<Jaina::Parser::Expression::Unit::Abstract>]
   #
   # @api private
   # @since 0.1.0
@@ -97,7 +97,7 @@ class Jaina::Parser::AST::TreeBuilder
   end
 
   # @param current_token [Jaina::Parser::Tokenizer::Token]
-  # @return [Jaina::Parser::Expression::Operator::Abstract]
+  # @return [Jaina::Parser::Expression::Unit::Abstract]
   #
   # @api private
   # @since 0.1.0
@@ -107,7 +107,7 @@ class Jaina::Parser::AST::TreeBuilder
 
   # @param current_token [Jaina::Parser::Tokenizer::Token]
   # @param token_series [Array<Jaina::Parser::Tokenizer::Token>]
-  # @return [Jaina::Parser::Expression::Operator::Abstract]
+  # @return [Jaina::Parser::Expression::Unit::Abstract]
   #
   # @api private
   # @since 0.1.0

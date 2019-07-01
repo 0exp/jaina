@@ -15,7 +15,7 @@ class Jaina::Parser::AST::Tree
   # @since 0.1.0
   attr_reader :ast_oriented_program
 
-  # @return [Jaina::Parser::Expression::Operator::Abstract]
+  # @return [Jaina::Parser::Expression::Unit::Abstract]
   #
   # @api private
   # @since 0.1.0
@@ -23,7 +23,7 @@ class Jaina::Parser::AST::Tree
 
   # @option initial_program [String]
   # @option ast_oriented_program [String]
-  # @option expression [Jaina::Parser::Expression::Operator::Abstract]
+  # @option expression [Jaina::Parser::Expression::Unit::Abstract]
   # @return [void]
   #
   # @api private
@@ -34,7 +34,7 @@ class Jaina::Parser::AST::Tree
     @expression = expression
   end
 
-  # @return [Jaina::Parser::Expression::operator::Abstract]
+  # @return [Jaina::Parser::Expression::Unit::Abstract]
   #
   # @api private
   # @since 0.3.0

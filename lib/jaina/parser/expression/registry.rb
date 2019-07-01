@@ -24,7 +24,7 @@ class Jaina::Parser::Expression::Registry
   end
 
   # @param expression_token [String]
-  # @return [Class{Jaina::Parser::Operator::Abstract}]
+  # @return [Class{Jaina::Parser::Unit::Abstract}]
   #
   # @api private
   # @since 0.1.0
@@ -32,7 +32,7 @@ class Jaina::Parser::Expression::Registry
     thread_safe { fetch(expression_token) }
   end
 
-  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
+  # @param expression [Class{Jaina::Parser::Unit::Abstract}]
   # @return [void]
   #
   # @api private
@@ -41,7 +41,7 @@ class Jaina::Parser::Expression::Registry
     thread_safe { add(expression) }
   end
 
-  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
+  # @param expression [Class{Jaina::Parser::Unit::Abstract}]
   # @return [void]
   #
   # @api private
@@ -60,7 +60,7 @@ class Jaina::Parser::Expression::Registry
 
   private
 
-  # @return [Hash<String,Class{Jaina::Parser::Operator::Abstract}>]
+  # @return [Hash<String,Class{Jaina::Parser::Unit::Abstract}>]
   #
   # @api private
   # @since 0.1.0
@@ -97,7 +97,7 @@ class Jaina::Parser::Expression::Registry
     expression_set.keys
   end
 
-  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
+  # @param expression [Class{Jaina::Parser::Unit::Abstract}]
   # @return [void]
   #
   # @raise [Jaina::Parser::Expression::Registry::AlreadyRegisteredExpressionError]
@@ -109,7 +109,7 @@ class Jaina::Parser::Expression::Registry
     raise(
       IncorrectExpressionObjectError,
       'Expression should be a subtype of Jaina::Parser::Expression::Operation::Abstract'
-    ) unless expression.is_a?(Class) && expression < Jaina::Parser::Expression::Operator::Abstract
+    ) unless expression.is_a?(Class) && expression < Jaina::Parser::Expression::Unit::Abstract
 
     raise(
       AlreadyRegisteredExpressionError,
@@ -119,7 +119,7 @@ class Jaina::Parser::Expression::Registry
     expression_set[expression.token] = expression
   end
 
-  # @param expression [Class{Jaina::Parser::Operator::Abstract}]
+  # @param expression [Class{Jaina::Parser::Unit::Abstract}]
   # @return [void]
   #
   # @raise [Jaina::Parser::Expression::Registry::IncorrectExpressionObjectError]
@@ -130,13 +130,13 @@ class Jaina::Parser::Expression::Registry
     raise(
       IncorrectExpressionObjectError,
       'Expression should be a subtype of Jaina::Parser::Expression::Operation::Abstract'
-    ) unless expression.is_a?(Class) && expression < Jaina::Parser::Expression::Operator::Abstract
+    ) unless expression.is_a?(Class) && expression < Jaina::Parser::Expression::Unit::Abstract
 
     expression_set[expression.token] = expression
   end
 
   # @param expression_token [String]
-  # @return [Class{Jaina::Parser::Operator::Abstract}]
+  # @return [Class{Jaina::Parser::Unit::Abstract}]
   #
   # @raise [Jaina::Parser::Expression::Registry::UnregisteredExpressionError]
   #

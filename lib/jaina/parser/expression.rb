@@ -3,27 +3,27 @@
 # @api private
 # @since 0.1.0
 module Jaina::Parser::Expression
-  require_relative './expression/operator'
+  require_relative './expression/unit'
   require_relative './expression/registry'
 
   # @since 0.1.0
   include Registry::AccessInterfaceMixin
 
   # @since 0.1.0
-  register(Operator::And)
+  register(Unit::And)
   # @since 0.1.0
-  register(Operator::Not)
+  register(Unit::Not)
   # @since 0.1.0
-  register(Operator::Or)
+  register(Unit::Or)
   # @since 0.1.0
-  register(Operator::LeftCorner)
+  register(Unit::LeftCorner)
   # @since 0.1.0
-  register(Operator::RightCorner)
+  register(Unit::RightCorner)
 
   class << self
     # @param expression_token [Jaina::Parser::Tokenizer::Token]
     # @param arguments [Array<Any>]
-    # @return [Jaina::Parser::Expression::Operator::Abstract]
+    # @return [Jaina::Parser::Expression::Unit::Abstract]
     #
     # @api private
     # @since 0.1.0

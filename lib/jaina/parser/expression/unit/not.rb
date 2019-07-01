@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Jaina::Parser::Expression::Operator
+module Jaina::Parser::Expression::Unit
   # @api private
   # @since 0.1.0
   class Not < NonTerminal
@@ -18,7 +18,7 @@ module Jaina::Parser::Expression::Operator
       !expression.evaluate(context)
     end
 
-    # @return [Jaina::Parser::Expression::Operator::Abstract]
+    # @return [Jaina::Parser::Expression::Unit::Abstract]
     #
     # @api private
     # @since 0.2.0

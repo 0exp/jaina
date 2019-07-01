@@ -2,7 +2,7 @@
 
 # @api private
 # @since 0.1.0
-module Jaina::Parser::Expression::Operator::Abstract::DSL
+module Jaina::Parser::Expression::Unit::Abstract::DSL
   # @since 0.1.0
   Error = Class.new(StandardError)
   # @since 0.1.0

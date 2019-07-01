@@ -26,7 +26,7 @@ module Jaina::Parser::Expression
         end
 
         # @param extension_token [String]
-        # @return [Class{Jaina::Parser::Expressions::Operator::Abstract}]
+        # @return [Class{Jaina::Parser::Expressions::Unit::Abstract}]
         #
         # @api private
         # @since 0.1.0
@@ -35,7 +35,7 @@ module Jaina::Parser::Expression
         end
         alias_method :fetch, :[]
 
-        # @param expression [Class{Jaina::Parser::Expressions::Operator::Abstract}]
+        # @param expression [Class{Jaina::Parser::Expressions::Unit::Abstract}]
         # @return [void]
         #
         # @api private
@@ -44,7 +44,7 @@ module Jaina::Parser::Expression
           @__expression_registry__.register(expression)
         end
 
-        # @param expression [Class{Jaina::Parser::Expressions::Operator::Abstract}]
+        # @param expression [Class{Jaina::Parser::Expressions::Unit::Abstract}]
         # @return [void]
         #
         # @api private

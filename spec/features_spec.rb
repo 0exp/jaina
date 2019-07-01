@@ -18,11 +18,11 @@ describe 'Features' do
     Jaina.register_expression(e)
     Jaina.register_expression(x)
 
-    # NOTE: parse basic operators and new registered expressions
+    # NOTE: parse basic operator/operands and new registered expressions
     ast = Jaina.parse('(A AND B) OR C AND (E OR D)')
     expect(ast.ast_tree.ast_oriented_program).to eq('AND OR AND A B C OR E D')
 
-    # NOTE: parse basic operators and new registered expressions (with NOT-operand)
+    # NOTE: parse basic operator/operands and new registered expressions (with NOT-operand)
     ast = Jaina.parse('(A AND B) OR C AND (E OR D) AND (NOT C)')
     expect(ast.ast_tree.ast_oriented_program).to eq('AND AND OR AND A B C OR E D NOT C')
 
@@ -44,11 +44,11 @@ describe 'Features' do
     expect(Jaina.fetch_expression('X')).to eq(x)
 
     # NOTE: fetch core expressions
-    expect(Jaina.fetch_expression('AND')).to eq(Jaina::Parser::Expression::Operator::And)
-    expect(Jaina.fetch_expression('OR')).to  eq(Jaina::Parser::Expression::Operator::Or)
-    expect(Jaina.fetch_expression('NOT')).to eq(Jaina::Parser::Expression::Operator::Not)
-    expect(Jaina.fetch_expression('(')).to   eq(Jaina::Parser::Expression::Operator::LeftCorner)
-    expect(Jaina.fetch_expression(')')).to   eq(Jaina::Parser::Expression::Operator::RightCorner)
+    expect(Jaina.fetch_expression('AND')).to eq(Jaina::Parser::Expression::Unit::And)
+    expect(Jaina.fetch_expression('OR')).to  eq(Jaina::Parser::Expression::Unit::Or)
+    expect(Jaina.fetch_expression('NOT')).to eq(Jaina::Parser::Expression::Unit::Not)
+    expect(Jaina.fetch_expression('(')).to   eq(Jaina::Parser::Expression::Unit::LeftCorner)
+    expect(Jaina.fetch_expression(')')).to   eq(Jaina::Parser::Expression::Unit::RightCorner)
 
     # NOTE: redefine expression
     x_new = Class.new(Jaina::TerminalExpr) { token 'X' }
@@ -86,24 +86,24 @@ describe 'Features' do
     )
 
     # NOTE: inheritance
-    y = Class.new(Jaina::Parser::Expression::Operator::And) { token '->' }
+    y = Class.new(Jaina::Parser::Expression::Unit::And) { token '->' }
     # - registered without conflicts
     Jaina.register_expression(y)
     # - same #precedence_level
     expect(y.precedence_level).to eq(
-      Jaina::Parser::Expression::Operator::And.precedence_level
+      Jaina::Parser::Expression::Unit::And.precedence_level
     )
     # - same #associativity_direction
     expect(y.associativity_direction).to eq(
-      Jaina::Parser::Expression::Operator::And.associativity_direction
+      Jaina::Parser::Expression::Unit::And.associativity_direction
     )
     # - same #acts_as_binary_term state
     expect(y.acts_as_binary_term?).to eq(
-      Jaina::Parser::Expression::Operator::And.acts_as_binary_term?
+      Jaina::Parser::Expression::Unit::And.acts_as_binary_term?
     )
     # - same #acts_as_unary_term state
     expect(y.acts_as_unary_term?).to eq(
-      Jaina::Parser::Expression::Operator::And.acts_as_unary_term?
+      Jaina::Parser::Expression::Unit::And.acts_as_unary_term?
     )
     # - correct AST
     ast = Jaina.parse('(A[1,2] -> B[3,4])')

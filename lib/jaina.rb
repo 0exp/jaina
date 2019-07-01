@@ -9,9 +9,9 @@ module Jaina
   # @since 0.1.0
   extend Forwardable
 
-  TerminalExpr    = Parser::Expression::Operator::Terminal
-  NonTerminalExpr = Parser::Expression::Operator::NonTerminal
-  GroupingExpr    = Parser::Expression::Operator::Grouping
+  TerminalExpr    = Parser::Expression::Unit::Terminal
+  NonTerminalExpr = Parser::Expression::Unit::NonTerminal
+  GroupingExpr    = Parser::Expression::Unit::Grouping
 
   class << self
     # @param program [String]
@@ -33,7 +33,7 @@ module Jaina
       parse(program).evaluate(**initial_context)
     end
 
-    # @param expression_klass [Class{Jaina::Parser::Expression::Operator::Abstract}]
+    # @param expression_klass [Class{Jaina::Parser::Expression::Unit::Abstract}]
     # @return [void]
     #
     # @api public
@@ -42,7 +42,7 @@ module Jaina
       Jaina::Parser::Expression.register(expression_klass)
     end
 
-    # @param expression_klass [Class{Jaina::Parser::Expression::Operator::Abstract}]
+    # @param expression_klass [Class{Jaina::Parser::Expression::Unit::Abstract}]
     # @return [void]
     #
     # @api public
@@ -60,7 +60,7 @@ module Jaina
     end
 
     # @param expression_token [String]
-    # @return [Class{Jaina::Parser::Expressions::Operator::Abstract}]
+    # @return [Class{Jaina::Parser::Expressions::Unit::Abstract}]
     #
     # @api public
     # @since 0.1.0

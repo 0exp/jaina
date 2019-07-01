@@ -15,7 +15,7 @@ module Jaina::Parser::AST::Evaluator
       context = Jaina::Parser::AST::Context.new(**initial_context)
 
       # NOTE: evaluate the root expression of AST
-      # NOTE: root is an entity of type [Jaina::Parser::Expression::Operator::Abstract]
+      # NOTE: root is an entity of type [Jaina::Parser::Expression::Unit::Abstract]
       ast.root.evaluate(context)
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Jaina::Parser::Expression::Operator
+module Jaina::Parser::Expression::Unit
   # @api private
   # @since 0.1.0
   class LeftCorner < Grouping
