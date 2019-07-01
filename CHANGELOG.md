@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+### Changed
+- (semantics, refactorigns): `Jaina::Parser::Expression::Operator` namespace has been renamed to
+  `Jaina::Parser::Expression::Unit` namespace;
+
 ## [0.7.0] - 2019-06-28
 ### Added
 - Support for cyrillic symbols in tokens;
