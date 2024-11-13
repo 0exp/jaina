@@ -1,4 +1,4 @@
-# Jaina  &middot; [![Gem Version](https://badge.fury.io/rb/jaina.svg)](https://badge.fury.io/rb/jaina) [![Build Status](https://travis-ci.org/0exp/jaina.svg?branch=master)](https://travis-ci.org/0exp/jaina) [![Coverage Status](https://coveralls.io/repos/github/0exp/jaina/badge.svg?branch=master)](https://coveralls.io/github/0exp/jaina?branch=master)
+# Jaina  &middot; [![Gem Version](https://badge.fury.io/rb/jaina.svg)](https://badge.fury.io/rb/jaina)
 
 Simple programming language builder inspired by interpreter pattern.
 You can build your own languages with custom operands and operators for any project purposes.
